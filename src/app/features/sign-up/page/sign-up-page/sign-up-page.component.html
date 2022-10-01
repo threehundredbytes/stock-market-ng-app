@@ -1,0 +1,9 @@
+<h1>Sign up</h1>
+<form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+  <input type="text" placeholder="Username" formControlName="username">
+  <input type="password" placeholder="Password" formControlName="password">
+  <select formControlName="role">
+    <option *ngFor="let userRole of userRoles" [value]="userRole">{{ userRole | lowercase }}</option>
+  </select>
+  <button type="submit" [disabled]="!signUpForm.valid">Submit</button>
+</form>
