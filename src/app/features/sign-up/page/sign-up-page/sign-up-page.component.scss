@@ -1,0 +1,24 @@
+@use '@angular/material' as mat;
+
+.form-card {
+  max-width: 400px;
+  text-align: center;
+  margin: 2.5em auto;
+  position: relative;
+  top: 42%;
+  transform: translateY(-50%);
+}
+
+mat-form-field {
+  width: 250px;
+  height: 100%;
+}
+
+.form-footer {
+  margin-top: 0.8rem;
+}
+
+.sign-up-link {
+  color: mat.get-color-from-palette(mat.$blue-palette, 500);
+  cursor: pointer;
+}

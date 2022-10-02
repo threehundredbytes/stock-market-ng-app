@@ -10,8 +10,6 @@ export class UserService {
   constructor(private httpClient: HttpClient) { }
 
   public signUp(user: User): void {
-    console.log(user);
-
     this.httpClient.post<void>(`${environment.apiUrl}/api/v1/auth/signup`, user).subscribe(response => console.log(response));
   }
 }

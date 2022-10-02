@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { UserService } from '../../service/user.service';
 import { User } from '../../model/User';
 import { UserRole } from '../../model/UserRole';
+import { AuthenticationService } from '../../../../core/auth/authentication.service';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -29,9 +30,14 @@ export class SignUpPageComponent implements OnInit {
 
   public userRoles = Object.values(UserRole);
 
-  constructor(private userService: UserService) { }
+  constructor(private authenticationService: AuthenticationService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
+  }
+
+  public login(): void {
+    this.authenticationService.login();
   }
 
   public signUp() {
@@ -42,6 +48,30 @@ export class SignUpPageComponent implements OnInit {
     }
 
     this.userService.signUp(user);
+  }
+
+  getUsernameInputValidationErrorMessage() {
+    if (this.usernameControl.hasError('required')) {
+      return 'Username is required';
+    }
+
+    if (this.usernameControl.hasError('minlength')) {
+      return 'Username minimal length is 3 characters';
+    }
+
+    return this.usernameControl.hasError('maxlength') ? 'Username maximum length is 16 characters' : '';
+  }
+
+  getPasswordInputValidationErrorMessage() {
+    if (this.passwordControl.hasError('required')) {
+      return 'Password is required';
+    }
+
+    if (this.passwordControl.hasError('minlength')) {
+      return 'Password minimal length is 8 characters';
+    }
+
+    return this.passwordControl.hasError('maxlength') ? 'Password maximum length is 32 characters' : '';
   }
 
   get usernameControl(): AbstractControl {

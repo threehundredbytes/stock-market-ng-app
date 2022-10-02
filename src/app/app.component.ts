@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './core/auth/authentication.service';
 
 @Component({
@@ -6,10 +6,11 @@ import { AuthenticationService } from './core/auth/authentication.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'stock-market-ng-app';
 
-  public isAuthenticated: boolean = false;
+  public isAuthenticated = false;
+  public isSidebarOpened = false;
 
   constructor(private authenticationService: AuthenticationService) {
   }
@@ -26,5 +27,9 @@ export class AppComponent {
 
   public logout(): void {
     this.authenticationService.logout();
+  }
+
+  public toggleSidebar() {
+    this.isSidebarOpened = !this.isSidebarOpened;
   }
 }
