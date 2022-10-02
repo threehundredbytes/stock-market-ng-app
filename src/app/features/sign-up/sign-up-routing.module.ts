@@ -5,7 +5,7 @@ import { NotAuthenticatedGuard } from '../../core/guard/not-authenticated.guard'
 
 const routes: Routes = [
   {
-    path: 'sign-up',
+    path: '',
     component: SignUpPageComponent,
     canActivate: [
       NotAuthenticatedGuard
@@ -14,7 +14,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class SignUpRoutingModule { }

@@ -1,4 +1,4 @@
-<div class="theme-wrapper">
+<div [class]="'theme-wrapper ' + (isDarkModeEnabled ? 'dark-theme' : 'light-theme')">
   <mat-sidenav-container class="content">
     <mat-sidenav mode="push" [opened]="isSidebarOpened">
       This is sidebar
@@ -18,6 +18,11 @@
         </div>
 
         <span class="toolbar-spacer"></span>
+
+        <button mat-mini-fab color="primary" (click)="toggleTheme()" style="margin-right: 1rem;">
+          <mat-icon *ngIf="!isDarkModeEnabled">light_mode</mat-icon>
+          <mat-icon *ngIf="isDarkModeEnabled">dark_mode</mat-icon>
+        </button>
 
         <ng-container *ngIf="isAuthenticated else notAuthenticated">
           <button mat-raised-button color="basic" (click)="logout()" *ngIf="isAuthenticated">Log out</button>

@@ -1,0 +1,11 @@
+@use '@angular/material' as material;
+
+$stock-market-ng-app-light-primary: material.define-palette(material.$grey-palette, 200, 500, 400);
+$stock-market-ng-app-light-accent: material.define-palette(material.$blue-palette, 500);
+$stock-market-ng-app-light-warn: material.define-palette(material.$red-palette, 600);
+
+$stock-market-ng-app-light-theme: material.define-light-theme(
+    $stock-market-ng-app-light-primary,
+    $stock-market-ng-app-light-accent,
+    $stock-market-ng-app-light-warn
+);

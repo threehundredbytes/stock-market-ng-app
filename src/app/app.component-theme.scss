@@ -1,0 +1,27 @@
+@use '@angular/material' as material;
+
+@mixin stock-market-ng-app-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .info-notification-overlay {
+    color: material.get-color-from-palette($accent, default-contrast);
+    background-color: material.get-color-from-palette($accent);
+  }
+
+  .success-notification-overlay {
+    color: material.get-color-from-palette($success-colors, default-contrast);
+    background-color: material.get-color-from-palette($success-colors);
+  }
+
+  .warning-notification-overlay {
+    color: material.get-color-from-palette($warning-colors, default-contrast);
+    background-color: material.get-color-from-palette($warning-colors);
+  }
+
+  .error-notification-overlay {
+    color: material.get-color-from-palette($warn, default-contrast);
+    background-color: material.get-color-from-palette($warn);
+  }
+}

@@ -1,2 +1,36 @@
+@use '@angular/material' as material;
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$success-colors: material.define-palette(material.$green-palette, 600);
+$warning-colors: material.define-palette(material.$orange-palette, 800);
+
+@include material.core();
+
+@import './themes/light-theme';
+@import './themes/dark-theme';
+
+@import './app/app.component-theme';
+
+@mixin custom-component-themes($theme) {
+  @include stock-market-ng-app-component-theme($theme);
+}
+
+.light-theme {
+  @include material.all-component-themes($stock-market-ng-app-light-theme);
+  @include custom-component-themes($stock-market-ng-app-light-theme);
+
+  a {
+    color: material.get-color-from-palette($stock-market-ng-app-light-accent)
+  }
+}
+
+.dark-theme {
+  @include material.all-component-themes($stock-market-ng-app-dark-theme);
+  @include custom-component-themes($stock-market-ng-app-dark-theme);
+
+  a {
+    color: material.get-color-from-palette($stock-market-ng-app-dark-accent)
+  }
+}
