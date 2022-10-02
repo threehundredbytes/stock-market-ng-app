@@ -22,7 +22,7 @@ $warning-colors: material.define-palette(material.$orange-palette, 800);
   @include custom-component-themes($stock-market-ng-app-light-theme);
 
   a {
-    color: material.get-color-from-palette($stock-market-ng-app-light-accent)
+    color: material.get-color-from-palette($stock-market-ng-app-light-primary)
   }
 }
 
@@ -31,6 +31,6 @@ $warning-colors: material.define-palette(material.$orange-palette, 800);
   @include custom-component-themes($stock-market-ng-app-dark-theme);
 
   a {
-    color: material.get-color-from-palette($stock-market-ng-app-dark-accent)
+    color: material.get-color-from-palette($stock-market-ng-app-light-primary)
   }
 }

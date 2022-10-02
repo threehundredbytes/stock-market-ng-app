@@ -22,13 +22,13 @@
     </mat-form-field>
 
     <div>
-      <button mat-stroked-button color="primary" type="submit" [disabled]="!signUpForm.valid" style="margin-bottom: 1rem;">Submit</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!signUpForm.valid" style="margin-bottom: 1rem;">Submit</button>
     </div>
   </form>
 
   <mat-divider></mat-divider>
 
   <div class="form-footer">
-    <a (click)="login()" class="sign-up-link">Already have an account? Sign in</a>
+    <a (click)="login()" style="cursor: pointer">Already have an account? Sign in</a>
   </div>
 </mat-card>

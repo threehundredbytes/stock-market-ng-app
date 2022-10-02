@@ -11,7 +11,6 @@ export class HomePageComponent implements OnInit {
   constructor(private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.notificationService.info("Welcome to stock-market-ng-app!")
+    this.notificationService.info('Welcome to stock-market-ng-app!')
   }
-
 }
