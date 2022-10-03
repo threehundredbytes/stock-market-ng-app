@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanLoad,
+  Route,
+  Router,
+  RouterStateSnapshot,
+  UrlSegment,
+} from '@angular/router';
 import { AuthenticationService } from '../auth/authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotAuthenticatedGuard implements CanActivate {
+export class NotAuthenticatedGuard implements CanActivate, CanLoad {
 
   private isAuthenticated: boolean = false;
 
@@ -16,6 +24,16 @@ export class NotAuthenticatedGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    if (!this.isAuthenticated) {
+      return true;
+    } else {
+      this.router.navigateByUrl('/');
+
+      return false;
+    }
+  }
+
+  canLoad(route: Route, segments: UrlSegment[]): boolean {
     if (!this.isAuthenticated) {
       return true;
     } else {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Observable } from 'rxjs';
+import { EventTypes, OidcSecurityService, PublicEventsService } from 'angular-auth-oidc-client';
+import { filter, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -11,12 +11,19 @@ export class AuthenticationService {
   public isAuthenticated$: Observable<boolean>;
   public accessToken$: Observable<string>;
 
-  constructor(private oidcSecurityService: OidcSecurityService) {
+  constructor(private oidcSecurityService: OidcSecurityService, private eventService: PublicEventsService) {
     this.isAuthenticated$ = this.oidcSecurityService.checkAuth().pipe(
       map(loginResponse => loginResponse.isAuthenticated)
     );
 
     this.accessToken$ = this.oidcSecurityService.getAccessToken();
+
+    this.eventService
+      .registerForEvents()
+      .pipe(filter((notification) => notification.type === EventTypes.TokenExpired))
+      .subscribe((value) => {
+        this.oidcSecurityService.forceRefreshSession();
+      });
   }
 
   public login(): void {
