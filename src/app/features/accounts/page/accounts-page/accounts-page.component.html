@@ -1,0 +1,16 @@
+<h1>My accounts</h1>
+
+<mat-card *ngFor="let account of accounts">
+  <mat-card-title>Account #{{ account.id }}</mat-card-title>
+  <mat-card-subtitle>Balance: {{ account.balance }}<span
+    *ngIf="account.reservedBalance > 0"> (reserved {{ account.reservedBalance }})</span></mat-card-subtitle>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="primary">Deposit</button>
+  </mat-card-actions>
+</mat-card>
+
+<h2 *ngIf="accounts?.length === 0">
+  You don't have an accounts yet
+</h2>
+
+<button mat-raised-button color="primary" (click)="createAccount()">Create an account</button>

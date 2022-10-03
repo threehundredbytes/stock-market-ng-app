@@ -9,11 +9,14 @@ import { map } from 'rxjs/operators';
 export class AuthenticationService {
 
   public isAuthenticated$: Observable<boolean>;
+  public accessToken$: Observable<string>;
 
   constructor(private oidcSecurityService: OidcSecurityService) {
     this.isAuthenticated$ = this.oidcSecurityService.checkAuth().pipe(
       map(loginResponse => loginResponse.isAuthenticated)
     );
+
+    this.accessToken$ = this.oidcSecurityService.getAccessToken();
   }
 
   public login(): void {

@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthConfigModule } from './auth/auth-config.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HttpAuthenticationInterceptor } from './http-interceptor/http-authentication.interceptor';
 
 @NgModule({
   declarations: [],
@@ -11,6 +12,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     HttpClientModule,
     AuthConfigModule,
     MatSnackBarModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpAuthenticationInterceptor,
+      multi: true
+    }
   ]
 })
 export class CoreModule { }

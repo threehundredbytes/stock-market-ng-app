@@ -4,6 +4,8 @@
       This is sidebar
       <br>
       And it's content
+      <br>
+      <a *ngIf="isAuthenticated" routerLink="/accounts">My Accounts</a>
     </mat-sidenav>
 
     <div class="wrapper">
@@ -37,7 +39,6 @@
       <div class="content">
         <router-outlet></router-outlet>
       </div>
-
     </div>
 
   </mat-sidenav-container>
