@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { EventTypes, OidcSecurityService, PublicEventsService } from 'angular-auth-oidc-client';
 import { filter, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { RxStompService } from '../stomp/rx-stomp.service';
+import { rxStompConfig } from '../stomp/rx-stomp.config';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +11,21 @@ import { map } from 'rxjs/operators';
 export class AuthenticationService {
 
   public isAuthenticated$: Observable<boolean>;
-  public accessToken$: Observable<string>;
 
-  constructor(private oidcSecurityService: OidcSecurityService, private eventService: PublicEventsService) {
+  constructor(private oidcSecurityService: OidcSecurityService, private eventService: PublicEventsService, private rxStompService: RxStompService) {
     this.isAuthenticated$ = this.oidcSecurityService.checkAuth().pipe(
       map(loginResponse => loginResponse.isAuthenticated)
     );
 
-    this.accessToken$ = this.oidcSecurityService.getAccessToken();
+    this.oidcSecurityService.getAccessToken().subscribe((accessToken) => {
+      if (accessToken != null) {
+        rxStompService.activateWithHeaders({
+          Authorization: `Bearer ${accessToken}`
+        });
+      } else {
+        rxStompService.configureAndActivate();
+      }
+    });
 
     this.eventService
       .registerForEvents()

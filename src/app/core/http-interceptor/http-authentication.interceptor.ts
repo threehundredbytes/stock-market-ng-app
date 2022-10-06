@@ -9,8 +9,6 @@ export class HttpAuthenticationInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.oidcSecurityService.getAccessToken().subscribe((accessToken) => {
-      console.log(accessToken);
-
       if (accessToken !== null) {
         request = request.clone({
           headers: request.headers.set('Authorization', `Bearer ${accessToken}`)

@@ -1,6 +1,6 @@
 <h1>Stocks catalog</h1>
 
-<mat-card *ngFor="let stock of stocks">
+<mat-card *ngFor="let stock of stocks" [routerLink]="'/stocks/' + stock.id">
   <mat-card-title>{{ stock.name }}</mat-card-title>
   <mat-card-subtitle>{{ stock.ticker }}</mat-card-subtitle>
   <mat-card-content>{{ stock.price }} Units</mat-card-content>

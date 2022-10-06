@@ -14,4 +14,8 @@ export class StockService {
   public getAllStocks(): Observable<Stock[]> {
     return this.httpClient.get<Stock[]>(`${environment.apiUrl}/api/v1/stocks`, { observe: 'body' });
   }
+
+  public getStockById(stockId: number): Observable<Stock> {
+    return this.httpClient.get<Stock>(`${environment.apiUrl}/api/v1/stocks/${stockId}`, { observe: 'body' });
+  }
 }

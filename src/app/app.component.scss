@@ -3,6 +3,10 @@
   height: 100%;
 }
 
+mat-toolbar {
+  padding: 1rem 1rem 1rem 0.75rem;
+}
+
 .brand {
   cursor: pointer;
 }
@@ -31,6 +35,7 @@ mat-sidenav-container {
   flex-direction: column;
 
   .content {
+    height: 100%;
     flex: 1 0 auto;
     padding: 16px;
     overflow: hidden;
