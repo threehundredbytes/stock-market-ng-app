@@ -5,7 +5,7 @@
   <mat-card-subtitle>Balance: {{ account.balance }} Units<span
     *ngIf="account.reservedBalance > 0"> (reserved {{ account.reservedBalance }} Units)</span></mat-card-subtitle>
   <mat-card-actions align="end">
-    <button mat-stroked-button color="primary">Deposit</button>
+    <button mat-stroked-button color="primary" (click)="openPaymentDialog(account.id)">Deposit</button>
   </mat-card-actions>
 </mat-card>
 

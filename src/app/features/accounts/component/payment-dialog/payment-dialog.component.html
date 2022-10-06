@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Make a deposit</h1>
+<div mat-dialog-content>
+  <p>Deposit for Account #{{ data.accountId }}</p>
+  <mat-form-field appearance="outline">
+    <mat-label>Deposit amount</mat-label>
+    <input matInput [(ngModel)]="data.amount">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No, thanks</button>
+  <button mat-button [mat-dialog-close]="data.amount" cdkFocusInitial>Deposit</button>
+</div>
