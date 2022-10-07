@@ -1,6 +1,6 @@
 <h1>My accounts</h1>
 
-<mat-card *ngFor="let account of accounts">
+<mat-card *ngFor="let account of accounts" [routerLink]="''+ account.id">
   <mat-card-title>Account #{{ account.id }}</mat-card-title>
   <mat-card-subtitle>Balance: {{ account.balance }} Units<span
     *ngIf="account.reservedBalance > 0"> (reserved {{ account.reservedBalance }} Units)</span></mat-card-subtitle>

@@ -1,0 +1,15 @@
+<div class="container" *ngIf="account">
+  <h1>Account #{{ account.id }}</h1>
+  <h2>Balance: {{ account.balance }} Units (reserved: {{ account.reservedBalance}} Units)</h2>
+
+  <ng-container *ngIf="stocks.length > 0">
+    <mat-card *ngFor="let stock of stocks" [routerLink]="'/stocks/' + stock.id">
+      <mat-card-title>{{ stock.name }}</mat-card-title>
+      <mat-card-subtitle>{{ stock.ticker }}</mat-card-subtitle>
+      <mat-card-content>
+        {{ getStockFormattedPrice(stock, 1) }} Units,&nbsp;
+        {{ getStockCurrentQuantity(stock) }} pcs -
+        {{ getStockFormattedPrice(stock, getStockCurrentQuantity(stock)) }} Units</mat-card-content>
+    </mat-card>
+  </ng-container>
+</div>

@@ -19,7 +19,7 @@ export class StockCatalogPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.stockService.getAllStocks().subscribe(stocks => {
-      this.stocks = stocks;
+      this.stocks = stocks.sort((a, b) => a.id - b.id);
 
       this.stocks.forEach((stock) => {
         const subscription = this.rxStompService.watch(`/topic/stocks/${stock.id}/prices`).subscribe(stocksPriceChange => {

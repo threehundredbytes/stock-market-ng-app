@@ -23,7 +23,9 @@ export class AccountsPageComponent implements OnInit {
               private matDialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.accountService.getAllAccounts().subscribe(accounts => this.accounts = accounts);
+    this.accountService.getAllAccounts().subscribe(accounts => {
+      this.accounts = accounts.sort((a, b) => a.id - b.id);
+    });
   }
 
   public createAccount(): void {

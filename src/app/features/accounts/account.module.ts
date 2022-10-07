@@ -10,11 +10,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { AccountPageComponent } from './page/account-page/account-page.component';
 
 @NgModule({
   declarations: [
     AccountsPageComponent,
-    PaymentDialogComponent
+    PaymentDialogComponent,
+    AccountPageComponent
   ],
   imports: [
     CommonModule,

@@ -26,7 +26,7 @@ export class StockPageComponent implements OnInit, OnDestroy {
 
       if (stockId != null) {
         this.stockService.getStockById(stockId).subscribe(stock => {
-          this.stock = stock;
+          this.stock = stock[0];
 
           this.stockPriceSubscription = this.rxStompService.watch(`/topic/stocks/${this.stock?.id}/prices`)
             .subscribe(stockPriceChange => {
