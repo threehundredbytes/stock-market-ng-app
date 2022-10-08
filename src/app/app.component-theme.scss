@@ -6,8 +6,8 @@
   $warn: map-get($theme, warn);
 
   .info-notification-overlay {
-    color: material.get-color-from-palette($accent, default-contrast);
-    background-color: material.get-color-from-palette($accent);
+    color: material.get-color-from-palette($primary, default-contrast);
+    background-color: material.get-color-from-palette($primary);
   }
 
   .success-notification-overlay {

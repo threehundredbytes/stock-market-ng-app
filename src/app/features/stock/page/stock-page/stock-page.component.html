@@ -1,5 +1,10 @@
 <ng-container *ngIf="stock">
-  <h1>{{ stock.name }}</h1>
+  <h1>
+    {{ stock.name }}
+    <button mat-mini-fab color="primary" matTooltip="Create stock price notification" (click)="openStockPriceNotificationDialog()" style="margin-left: 0.5rem;">
+      <mat-icon>notifications</mat-icon>
+    </button>
+  </h1>
   <h3>
     {{ stock.ticker }}
   </h3>
@@ -9,5 +14,3 @@
     <mat-icon *ngIf="isTrendingDown">trending_down</mat-icon>
   </h1>
 </ng-container>
-
-

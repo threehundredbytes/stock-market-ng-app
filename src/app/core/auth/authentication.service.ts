@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { EventTypes, OidcSecurityService, PublicEventsService } from 'angular-auth-oidc-client';
-import { filter, Observable } from 'rxjs';
+import { filter, Observable, tap } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RxStompService } from '../stomp/rx-stomp.service';
-import { rxStompConfig } from '../stomp/rx-stomp.config';
+import { StockMarketStompService } from '../stomp/stock-market-stomp.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +11,13 @@ export class AuthenticationService {
 
   public isAuthenticated$: Observable<boolean>;
 
-  constructor(private oidcSecurityService: OidcSecurityService, private eventService: PublicEventsService, private rxStompService: RxStompService) {
+  constructor(private oidcSecurityService: OidcSecurityService,
+              private stockMarketStompService: StockMarketStompService,
+              private eventService: PublicEventsService) {
     this.isAuthenticated$ = this.oidcSecurityService.checkAuth().pipe(
-      map(loginResponse => loginResponse.isAuthenticated)
+      map(loginResponse => loginResponse.isAuthenticated),
+      tap(() => this.stockMarketStompService.connect())
     );
-
-    this.oidcSecurityService.getAccessToken().subscribe((accessToken) => {
-      if (accessToken != null) {
-        rxStompService.activateWithHeaders({
-          Authorization: `Bearer ${accessToken}`
-        });
-      } else {
-        rxStompService.configureAndActivate();
-      }
-    });
 
     this.eventService
       .registerForEvents()

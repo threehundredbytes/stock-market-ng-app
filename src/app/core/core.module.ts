@@ -5,6 +5,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpAuthenticationInterceptor } from './http-interceptor/http-authentication.interceptor';
 import { JsonDateInterceptor } from './http-interceptor/json-date.interceptor';
+import { RxStomp } from '@stomp/rx-stomp';
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,10 @@ import { JsonDateInterceptor } from './http-interceptor/json-date.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: JsonDateInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: RxStomp
+    },
   ]
 })
 export class CoreModule { }

@@ -5,7 +5,7 @@ import { Stock } from '../../model/stock.model';
 import { Account } from '../../model/account.model';
 import { StockService } from '../../service/stock.service';
 import { StockPrice } from '../../../stock/model/stock-price.model';
-import { RxStompService } from '../../../../core/stomp/rx-stomp.service';
+import { StockMarketStompService } from '../../../../core/stomp/stock-market-stomp.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -21,7 +21,7 @@ export class AccountPageComponent implements OnInit, OnDestroy {
 
   constructor(private accountService: AccountService,
               private stockService: StockService,
-              private rxStompService: RxStompService,
+              private stockMarketStompService: StockMarketStompService,
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -33,12 +33,12 @@ export class AccountPageComponent implements OnInit, OnDestroy {
       this.accountService.getAllStocksOnAccount(accountId).subscribe(stocksOnAccount => {
         this.stocks = stocksOnAccount;
 
-        this.stockService.getStocksByIds(this.stocks.map(stock => stock.id)).subscribe(stocks => {
-          this.stocks = this.stocks.map(t1 => ({...t1, ...stocks.find(t2 => t2.id === t1.id)}))
+        this.stockService.getStocksByIds(this.stocks.map(stock => stock.stockId)).subscribe(stocks => {
+          this.stocks = this.stocks.map(t1 => ({...t1, ...stocks.find(t2 => t2.id === t1.stockId)}))
             .sort((a, b) => a.purchasedAt.getTime() - b.purchasedAt.getTime());
 
           this.stocks.forEach((stock) => {
-            const subscription = this.rxStompService.watch(`/topic/stocks/${stock.id}/prices`).subscribe(stocksPriceChange => {
+            const subscription = this.stockMarketStompService.watchStocksPrices(stock.id).subscribe(stocksPriceChange => {
               const stockPrice: StockPrice = JSON.parse(stocksPriceChange.body);
 
               stock.price = stockPrice.newPrice;

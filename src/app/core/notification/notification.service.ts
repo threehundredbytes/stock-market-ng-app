@@ -1,12 +1,26 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { HttpClient } from '@angular/common/http';
+import { StockPriceNotificationRequest } from '../model/request/stock-price-notification.request.model';
+import { StockPriceNotificationResponse } from '../model/response/stock-price-notification.response.model';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private httpClient: HttpClient, private snackBar: MatSnackBar) {
+  }
+
+  public createStockPriceNotification(request: StockPriceNotificationRequest): Observable<StockPriceNotificationResponse> {
+    return this.httpClient.post<StockPriceNotificationResponse>(`${environment.apiUrl}/api/v1/notifications/`, request, { observe: 'body' });
+  }
+
+  public deactivateStockPriceNotification(notificationId: number): void {
+    this.httpClient.delete<StockPriceNotificationResponse>(`${environment.apiUrl}/api/v1/notifications/${notificationId}`);
+  }
 
   public info(message: string) {
     this.showNotification(message, {

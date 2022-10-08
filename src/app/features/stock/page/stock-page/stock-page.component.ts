@@ -2,9 +2,18 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { StockService } from '../../service/stock.service';
 import { Stock } from '../../model/stock.model';
-import { RxStompService } from '../../../../core/stomp/rx-stomp.service';
+import { StockMarketStompService } from '../../../../core/stomp/stock-market-stomp.service';
 import { StockPrice } from '../../model/stock-price.model';
 import { Subscription } from 'rxjs';
+import { Payment } from '../../../accounts/model/payment.model';
+import { PaymentDialogComponent } from '../../../accounts/component/payment-dialog/payment-dialog.component';
+import { PaymentStatus } from '../../../accounts/model/payment-status.model';
+import { StockPriceNotificationRequest } from '../../../../core/model/request/stock-price-notification.request.model';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  StockPriceNotificationDialogComponent
+} from '../../component/stock-price-notification-dialog/stock-price-notification-dialog.component';
+import { NotificationService } from '../../../../core/notification/notification.service';
 
 @Component({
   selector: 'app-stock-page',
@@ -18,8 +27,10 @@ export class StockPageComponent implements OnInit, OnDestroy {
   public isTrendingDown = false;
 
   constructor(private stockService: StockService,
-              private rxStompService: RxStompService,
-              private activatedRoute: ActivatedRoute) { }
+              private notificationService: NotificationService,
+              private stockMarketStompService: StockMarketStompService,
+              private activatedRoute: ActivatedRoute,
+              private matDialog: MatDialog) { }
 
   ngOnInit(): void {
       let stockId = this.activatedRoute.snapshot.params['stockId'];
@@ -28,7 +39,7 @@ export class StockPageComponent implements OnInit, OnDestroy {
         this.stockService.getStockById(stockId).subscribe(stock => {
           this.stock = stock[0];
 
-          this.stockPriceSubscription = this.rxStompService.watch(`/topic/stocks/${this.stock?.id}/prices`)
+          this.stockPriceSubscription = this.stockMarketStompService.watchStocksPrices(this.stock.id)
             .subscribe(stockPriceChange => {
               let stockPrice: StockPrice = JSON.parse(stockPriceChange.body);
 
@@ -50,5 +61,29 @@ export class StockPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stockPriceSubscription?.unsubscribe();
+  }
+
+  openStockPriceNotificationDialog() {
+    if (this.stock != undefined) {
+      let stockPriceNotification: StockPriceNotificationRequest = {
+        stockId: this.stock?.id,
+        atPrice: this.stock?.price
+      }
+
+      const dialogRef = this.matDialog.open(StockPriceNotificationDialogComponent, {
+        width: '250px',
+        data: stockPriceNotification
+      });
+
+      dialogRef.afterClosed().subscribe(atPrice => {
+        stockPriceNotification.atPrice = atPrice;
+
+        if (stockPriceNotification.atPrice != undefined) {
+          this.notificationService.createStockPriceNotification(stockPriceNotification).subscribe(() => {
+              this.notificationService.success("Notification successfully created");
+          });
+        }
+      });
+    }
   }
 }

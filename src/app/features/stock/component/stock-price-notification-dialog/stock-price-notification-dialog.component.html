@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Create a stock price notification</h1>
+<div mat-dialog-content>
+  <p>Send notification at price</p>
+  <mat-form-field appearance="outline">
+    <mat-label>At price</mat-label>
+    <input matInput [(ngModel)]="data.atPrice">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data.atPrice" cdkFocusInitial>Submit</button>
+</div>
